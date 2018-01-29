@@ -8,7 +8,9 @@
         <item
             android:id="@+id/nav_items"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="My items" />
+            android:title="My items"
+            android:visible="false"
+            />
         <item
             android:id="@+id/nav_scan"
             android:icon="@drawable/ic_menu_camera"

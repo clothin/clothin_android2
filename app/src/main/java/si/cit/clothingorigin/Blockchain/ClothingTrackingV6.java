@@ -113,6 +113,7 @@ public final class ClothingTrackingV6 extends Contract {
         return executeRemoteCallTransaction(function);
     }
 
+
     public RemoteCall<Product> getProductObject(final BigInteger _id) {
         final Function function = new Function("getProductInfo",
                 Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Uint256(_id)),

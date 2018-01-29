@@ -47,13 +47,15 @@ public class Product {
                         );
                         production_chain.add(producer);
                         Gson gson = new Gson();
-                        Timber.i("Product trail node: " + gson.toJson(producer));
+                        //Timber.i("Product trail node: " + gson.toJson(producer));
                     }
                     //Gson gson = new Gson();
                     //Timber.i("Product trail result: " + gson.toJson(tuple2));
+                    Producer lastProducer = production_chain.get(production_chain.size()-1);
+                    sold_by = lastProducer.name;
                     listener.onDataChange(production_chain);
                 }else{
-                    Timber.i("Product trail result failed!");
+                    Timber.e("Product trail result failed!");
                 }
             }
         });
@@ -80,9 +82,13 @@ public class Product {
         return product;
     }
 
-    public static int random(int low, int high){
+    private static int random(int low, int high){
         Random r = new Random();
         return r.nextInt(high-low) + low;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj.getClass()==this.getClass() && id==((Product)obj).id;
+    }
 }

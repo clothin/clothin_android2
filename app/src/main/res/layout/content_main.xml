@@ -1,20 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="si.cit.clothingorigin.Activities.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:showIn="@layout/app_bar_main"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="My items...."
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        >
 
-</android.support.constraint.ConstraintLayout>
+        <si.cit.clothingorigin.views.FontView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recently scanned products:"
+            android:gravity="center"
+            android:textSize="10pt"
+            android:textColor="#eeeeee"
+            app:customFont="LatoHeavy"
+            android:background="@color/colorPrimary"
+            android:padding="5dp"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recent_scans_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            >
+
+        </android.support.v7.widget.RecyclerView>
+
+        <si.cit.clothingorigin.views.FontView
+            android:id="@+id/noProductsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Scan some products and they will show up here..."
+            android:gravity="center"
+            app:customFont="LatoMedium"
+            android:textSize="7pt"
+            android:visibility="invisible"
+            />
+    </LinearLayout>
+
+
+
+</android.support.v4.widget.NestedScrollView>

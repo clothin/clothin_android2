@@ -1,14 +1,18 @@
 package si.cit.clothingorigin.Activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -74,6 +78,7 @@ public class ItemDetailsActivity extends BaseActivity implements RecyclerAdapter
     ProductionChainAdapter productionChainAdapter = null;
 
     private Product product = Product.fakeProduct0();
+    private boolean fromScan = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +88,7 @@ public class ItemDetailsActivity extends BaseActivity implements RecyclerAdapter
         ButterKnife.bind(this);
 
         final Long productId = getIntent().getLongExtra("product_id",0);
+        fromScan = getIntent().getBooleanExtra("fromScan",true);
 
         if(productId>0){
             //get real product data from BC
@@ -126,7 +132,7 @@ public class ItemDetailsActivity extends BaseActivity implements RecyclerAdapter
                 .into(productPicture);
 
         productTitle.setText(product.title);
-        productPrice.setText(product.price);
+        productPrice.setText(product.price+" €");
         productSize.setText(product.size);
         productColor.setText(product.color);
         productMaterials.setText(product.materials);
@@ -134,6 +140,10 @@ public class ItemDetailsActivity extends BaseActivity implements RecyclerAdapter
     }
 
     private void initProductChainList(){
+        if(fromScan)updateRecentScanList();
+
+        productSeler.setText(product.sold_by);
+
         productEcoScore.setText(String.valueOf(product.productionScore)+"/30");
         productEcoReward.setText("ECO reward: "+product.productionScore+" tokens");
 
@@ -193,6 +203,38 @@ public class ItemDetailsActivity extends BaseActivity implements RecyclerAdapter
             return r.nextInt(high - low) + low;
         }
         return 0;
+    }
+
+    private void updateRecentScanList(){
+        if(product.id>0) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    SharedPreferences sp = getSharedPreferences(getString(R.string.preferences_value_store), MODE_PRIVATE);
+                    String historyJson = sp.getString(getString(R.string.value_scan_history), "");
+                    List<Product> history = new ArrayList<>();
+                    Gson gson = new Gson();
+                    if (historyJson.length() == 0) {
+                        Timber.i("Clean scan history");
+                        history.add(product);
+                    } else {
+                        history = gson.fromJson(historyJson, new TypeToken<List<Product>>(){}.getType());
+                        if (history != null) {
+                            Timber.i("Scan history length: " + history.size());
+                            if(history.contains(product)){
+                                history.remove(product);
+                            }
+                            history.add(product);
+                        } else {
+                            Timber.e("Failed to retrieve scan history!");
+                        }
+                    }
+
+                    historyJson = gson.toJson(history,new TypeToken<List<Product>>(){}.getType());
+                    sp.edit().putString(getString(R.string.value_scan_history), historyJson).apply();
+                }
+            }).start();
+        }
     }
 
     @Override

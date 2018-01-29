@@ -105,6 +105,11 @@ public class BlockchainConnector {
         startFutureListener(future,listener);
     }
 
+    public void addProduct(long id,String name,String size,String material,String color,long price,String picUrl, ContractResultListener listener){
+        final Future future = contract.addProduct(BigInteger.valueOf(id),name,size,material,color,BigInteger.valueOf(price),picUrl).sendAsync();
+        startFutureListener(future,listener);
+    }
+
     public void getProductProductionChainInfo(long productId,final ContractResultListener listener){
         final Future future = contract.getProductProductionChain(BigInteger.valueOf(productId)).sendAsync();
         startFutureListener(future,listener);

@@ -40,25 +40,15 @@ public class CitApp extends Application{
             String bcClientVersion = mBlockchainConnector.getRemoteClientVersion();
             Timber.i("Blockchain client: " + bcClientVersion);
 
-            mBlockchainConnector.getProduct(3,new ContractResultListener() {
+            Timber.i("Adding product");
+            /*
+            mBlockchainConnector.addProduct(1, "Nike Free RN 2017", "42", "Rubber", "Off-White", 110, "https://c.static-nike.com/a/images/t_PDP_1728_v1/f_auto/xtakm0wiajfgaknyhyuq/free-rn-2017-running-shoe-DNRrn1.jpg", new ContractResultListener() {
                 @Override
                 public void onContractResult(Object resultObject, boolean success) {
-                    if(success) {
-                        final Product product = (Product)resultObject;
-                        product.fetchProductionChain(new ObjectDataChangeListener() {
-                            @Override
-                            public void onDataChange(Object object) {
-                                Gson gson = new Gson();
-                                Timber.i("Product chain result: " + gson.toJson(product));
-                            }
-                        });
-                        Gson gson = new Gson();
-                        Timber.i("Contract result: " + gson.toJson(product));
-                    }else{
-                        Timber.i("Contract result failed!");
-                    }
+                    Timber.i("Product added: "+String.valueOf(success));
                 }
             });
+            */
         }catch (OutOfMemoryError error){
             error.printStackTrace();
         }

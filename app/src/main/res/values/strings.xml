@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Clothing origin</string>
 
+    <string name="preferences_value_store">clothin.values</string>
+    <string name="value_scan_history">value.scan.history</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
